@@ -1,7 +1,7 @@
 package lk.ijse.possystembackendv2.utils;
 
-import lk.ijse.possystembackendv2.dto.CustomerDTO;
-import lk.ijse.possystembackendv2.entity.Customer;
+import lk.ijse.possystembackendv2.dto.impl.CustomerDTO;
+import lk.ijse.possystembackendv2.entity.impl.Customer;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +15,13 @@ public class Mapping {
     private ModelMapper modelMapper;
 
     // matters of customer entity and dto
-    public CustomerDTO toDto(Customer note) {
-        return modelMapper.map(note, CustomerDTO.class);
+    public CustomerDTO toDto(Customer customer) {
+        return modelMapper.map(customer, CustomerDTO.class);
     }
-    public Customer toEntity(CustomerDTO noteDTO) {
-        return modelMapper.map(noteDTO, Customer.class);
+    public Customer toEntity(CustomerDTO customerDTO) {
+        return modelMapper.map(customerDTO, Customer.class);
     }
-    public List<CustomerDTO> toNoteDtoList(List<Customer> notes) {
-        return modelMapper.map(notes, new TypeToken<List<CustomerDTO>>() {}.getType());
+    public List<CustomerDTO> toCustomerDtoList(List<Customer> customers) {
+        return modelMapper.map(customers, new TypeToken<List<CustomerDTO>>() {}.getType());
     }
 }
