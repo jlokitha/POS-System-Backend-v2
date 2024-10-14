@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class CustomerDTO implements SuperDTO, CustomerResponse {
     private String id;
     private String name;
+    private String email;
     private String address;
     private double salary;
 }
