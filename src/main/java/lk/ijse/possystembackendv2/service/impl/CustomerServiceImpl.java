@@ -7,10 +7,9 @@ import lk.ijse.possystembackendv2.exception.CustomerNotFountException;
 import lk.ijse.possystembackendv2.exception.DataPersistFailedException;
 import lk.ijse.possystembackendv2.repository.CustomerRepository;
 import lk.ijse.possystembackendv2.service.CustomerService;
-import lk.ijse.possystembackendv2.utils.IdGenerator;
 import lk.ijse.possystembackendv2.utils.Mapping;
+import lk.ijse.possystembackendv2.utils.PasswordEncoderUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,14 +19,12 @@ import java.util.Optional;
 @Transactional
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
-    @Autowired
     private final CustomerRepository customerRepository;
-    @Autowired
     private final Mapping mapping;
 
     @Override
     public void saveCustomer(CustomerDTO dto) {
-        dto.setId(IdGenerator.generateId());
+        dto.setPassword(PasswordEncoderUtil.encodePassword(dto.getPassword()));
         Customer save = customerRepository.save(mapping.toEntity(dto));
         if (save == null) {
             throw new DataPersistFailedException("Customer save failed");
@@ -41,20 +38,21 @@ public class CustomerServiceImpl implements CustomerService {
         else {
             customer.get().setName(dto.getName());
             customer.get().setEmail(dto.getEmail());
+            customer.get().setPassword(PasswordEncoderUtil.encodePassword(dto.getPassword()));
             customer.get().setAddress(dto.getAddress());
             customer.get().setSalary(dto.getSalary());
         }
     }
 
     @Override
-    public CustomerDTO findCustomerById(String id) {
+    public CustomerDTO findCustomerById(Long id) {
         Optional<Customer> byId = customerRepository.findById(id);
         if (byId.isEmpty()) throw new CustomerNotFountException("Customer not found");
         else return mapping.toDto(byId.get());
     }
 
     @Override
-    public void deleteCustomer(String id) {
+    public void deleteCustomer(Long id) {
         if (!customerRepository.existsById(id)) throw new CustomerNotFountException("Customer not found");
         else {
             customerRepository.deleteById(id);
