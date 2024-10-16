@@ -19,7 +19,6 @@ import java.util.List;
 public class Mapping {
     @Autowired
     private ModelMapper modelMapper;
-
     // matters of customer entity and dto
     public CustomerDTO toDto(Customer customer) {
         return modelMapper.map(customer, CustomerDTO.class);
@@ -30,7 +29,6 @@ public class Mapping {
     public List<CustomerDTO> toCustomerDtoList(List<Customer> customers) {
         return modelMapper.map(customers, new TypeToken<List<CustomerDTO>>() {}.getType());
     }
-
     // matters of item entity and dto
     public ItemDTO toDto(Item item) {
         return modelMapper.map(item, ItemDTO.class);
@@ -41,7 +39,6 @@ public class Mapping {
     public List<ItemDTO> toItemDtoList(List<Item> items) {
         return modelMapper.map(items, new TypeToken<List<ItemDTO>>() {}.getType());
     }
-
     // matters of order entity and dto
     public OrderDTO toDto(Order order) {
         return modelMapper.map(order, OrderDTO.class);
@@ -52,7 +49,6 @@ public class Mapping {
     public List<OrderDTO> toOrderDtoList(List<Order> orders) {
         return modelMapper.map(orders, new TypeToken<List<OrderDTO>>() {}.getType());
     }
-
     // matters of orderDetail entity and dto
     public List<OrderDetailDTO> toOrderDetailDtoList(List<OrderDetail> orders) {
         return modelMapper.map(orders, new TypeToken<List<OrderDetailDTO>>() {}.getType());

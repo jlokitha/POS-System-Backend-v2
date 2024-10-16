@@ -21,7 +21,6 @@ import java.util.Optional;
 public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
     private final Mapping mapping;
-
     @Override
     public void saveCustomer(CustomerDTO dto) {
         dto.setPassword(PasswordEncoderUtil.encodePassword(dto.getPassword()));
@@ -30,7 +29,6 @@ public class CustomerServiceImpl implements CustomerService {
             throw new DataPersistFailedException("Customer save failed");
         }
     }
-
     @Override
     public void updateCustomer(CustomerDTO dto) {
         Optional<Customer> customer = customerRepository.findById(dto.getId());
@@ -43,14 +41,12 @@ public class CustomerServiceImpl implements CustomerService {
             customer.get().setSalary(dto.getSalary());
         }
     }
-
     @Override
     public CustomerDTO findCustomerById(Long id) {
         Optional<Customer> byId = customerRepository.findById(id);
         if (byId.isEmpty()) throw new CustomerNotFountException("Customer not found");
         else return mapping.toDto(byId.get());
     }
-
     @Override
     public void deleteCustomer(Long id) {
         if (!customerRepository.existsById(id)) throw new CustomerNotFountException("Customer not found");
@@ -58,7 +54,6 @@ public class CustomerServiceImpl implements CustomerService {
             customerRepository.deleteById(id);
         }
     }
-
     @Override
     public List<CustomerDTO> findAllCustomers() {
         return mapping.toCustomerDtoList(customerRepository.findAll());

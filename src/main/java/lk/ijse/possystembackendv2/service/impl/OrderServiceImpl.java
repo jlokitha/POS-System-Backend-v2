@@ -31,22 +31,18 @@ public class OrderServiceImpl implements OrderService {
     private final CustomerRepository customerRepository;
     private final ItemRepository itemRepository;
     private final Mapping mapping;
-
     @Override
     public void saveOrder(OrderDTO orderDTO) {
         Order order = mapping.toEntity(orderDTO);
         order.setDate(LocalDate.parse(orderDTO.getDate()));
-
         Optional<Customer> customer = customerRepository.findById(orderDTO.getCustomerId());
         if (customer.isEmpty()) throw new CustomerNotFountException("Customer not found.");
         else {
             order.setCustomer(customer.get());
             order = orderRepository.save(order);
-
             if (order == null) {
                 throw new DataPersistFailedException("Order save failed");
             }
-
             for (OrderDetailDTO detailDTO : orderDTO.getItemList()) {
                 Order tempOrder = order;
                 itemRepository.findById(detailDTO.getItemId()).ifPresent(item -> {
@@ -66,7 +62,6 @@ public class OrderServiceImpl implements OrderService {
             }
         }
     }
-
     @Override
     public OrderDTO getSelectedOrder(Long id) {
         Optional<Order> byId = orderRepository.findById(id);
@@ -76,7 +71,6 @@ public class OrderServiceImpl implements OrderService {
         orderDTO.setItemList(mapping.toOrderDetailDtoList(allByOrder));
         return orderDTO;
     }
-
     @Override
     public List<OrderDTO> getAllOrders() {
         List<Order> allOrders = orderRepository.findAll();
