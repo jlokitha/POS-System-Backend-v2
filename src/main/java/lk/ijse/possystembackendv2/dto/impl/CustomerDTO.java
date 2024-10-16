@@ -17,4 +17,5 @@ public class CustomerDTO implements SuperDTO {
     private String password;
     private String address;
     private double salary;
+    private String profilePic;
 }
