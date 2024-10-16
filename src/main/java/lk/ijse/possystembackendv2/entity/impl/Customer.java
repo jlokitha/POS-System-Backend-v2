@@ -25,6 +25,8 @@ public class Customer implements SuperEntity {
     private String password;
     private String address;
     private double salary;
+    @Column(columnDefinition = "LONGTEXT")
+    private String profilePic;
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     @ToString.Exclude

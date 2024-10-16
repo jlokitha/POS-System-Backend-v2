@@ -23,6 +23,10 @@ public class CustomerServiceImpl implements CustomerService {
     private final Mapping mapping;
     @Override
     public void saveCustomer(CustomerDTO dto) {
+        if (customerRepository.existsByEmail(dto.getEmail())
+                || !dto.getEmail().matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
+            throw new DataPersistFailedException("Customer with the same email already exists or email format is invalid");
+        }
         dto.setPassword(PasswordEncoderUtil.encodePassword(dto.getPassword()));
         Customer save = customerRepository.save(mapping.toEntity(dto));
         if (save == null) {
